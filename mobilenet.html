@@ -19,7 +19,7 @@
   const predictResult = document.getElementById('predict');
   // Load the model.
   const localModel = './model.json';
-  const jsdelivrGithubModel = 'https://cdn.jsdelivr.net/gh/tangmingsh/tfjs-models-savedmodels/mobilenetModel/mobilenet_v1_025_224/model.json';
+  const jsdelivrGithubModel = 'https://cdn.jsdelivr.net/gh/tangmingsh/tfjs-models-savedmodels/mobilenetModel/mobilenet_v1_050_224/model.json';
   mobilenet.load({version:1,modelUrl:jsdelivrGithubModel}).then(model => {
     // Classify the image.
     model.classify(img).then(predictions => {
