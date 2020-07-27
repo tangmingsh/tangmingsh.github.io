@@ -22,9 +22,12 @@
       var startTime = new Date().getTime(); // get the current time
       while (new Date().getTime() < startTime + milliSeconds);
   }
+  const camconfig = {
+      facingMode:'environment'
+  }
   async function app(){
      const model = await mobilenet.load({version:1,modelUrl:localModel});
-     const webcam = await tf.data.webcam(webcamElement);
+     const webcam = await tf.data.webcam(webcamElement,camconfig);
       while (true) {
           const img = await webcam.capture();
           const result = await model.classify(img,1);
