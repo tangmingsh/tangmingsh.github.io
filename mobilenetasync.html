@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<!-- 加载Tensorflow tfjs JavaScript模组 -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.1"> </script>
+<!-- 加载MobileNet模型的Javascript模组. -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.0.4"> </script>
+<!-- 你可以替换以下图片为自己的图片 -->
+
+<video autoplay playsinline muted id="webcam" width="400" height="400"></video>
+<p id="console"></p>
+<!-- 将自己的代码放在以下script标签之间 你也可以将以下script标签之间的代码放在一个外部的js文件中 -->
+<script>
+  // Load the model.
+  const localModel = 'https://cdn.jsdelivr.net/gh/tangmingsh/tfjs-models-savedmodels/mobilenetModel/mobilenet_v1_050_224/model.json';
+  const webcamElement = document.getElementById('webcam');
+  function sleep(milliSeconds){
+      var startTime = new Date().getTime(); // get the current time
+      while (new Date().getTime() < startTime + milliSeconds);
+  }
+  async function app(){
+     const model = await mobilenet.load({version:1,modelUrl:localModel});
+     const webcam = await tf.data.webcam(webcamElement);
+      while (true) {
+          const img = await webcam.capture();
+          const result = await model.classify(img,1);
+          let temp = '';
+          result.forEach(e=>{
+              temp += `预测结果：${e.className} 置信度：${e.probability} \n`
+          })
+          document.getElementById('console').innerText = temp;
+          // Dispose the tensor to release the memory.
+          img.dispose();
+          // Give some breathing room by waiting for the next animation frame to
+          // fire.
+          await sleep(3);
+          await tf.nextFrame();
+      }
+  }
+  app();
+</script>
+</body>
+</html>
