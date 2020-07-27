@@ -23,7 +23,7 @@
       while (new Date().getTime() < startTime + milliSeconds);
   }
   const camconfig = {
-      facingMode:'environment'
+      facingMode:'user'
   }
   async function app(){
      const model = await mobilenet.load({version:1,modelUrl:localModel});
